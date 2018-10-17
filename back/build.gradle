@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'com.cdci'
+version '1.0.0-SNAPSHOT'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'junit', name: 'junit', version: '4.12'
+}
+

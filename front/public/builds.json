@@ -1,0 +1,20 @@
+{
+  "builds": [
+    {
+      "id": "1",
+      "name": "Build #1",
+      "working": "images/Cherry.png",
+      "project": "$1.99",
+      "color": "green",
+      "description": "This build is working"
+    },
+    {
+      "id": "2",
+      "name": "Build #2",
+      "working": "images/Cherry.png",
+      "project": "$1.99",
+      "color": "red",
+      "description": "This build is failing"
+    }
+  ]
+}

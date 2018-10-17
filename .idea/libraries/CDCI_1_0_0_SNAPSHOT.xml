@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CDCI-1.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/back/build/libs/CDCI-1.0.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

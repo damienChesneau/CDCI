@@ -1,0 +1,1 @@
+/root/jdk11/jdk-11/bin/java -p ./build/libs/CDCI-1.0.0-SNAPSHOT.jar -m cdci.main/com.cdci.main.Main
