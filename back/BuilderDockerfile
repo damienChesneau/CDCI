@@ -1,0 +1,8 @@
+FROM openjdk:11-jdk
+ARG https_proxy
+ARG http_proxy
+ARG HTTP_PROXY
+ARG HTPPS_PROXY
+ADD ./ /home/dev
+WORKDIR /home/dev/
+RUN ./gradlew build -x test

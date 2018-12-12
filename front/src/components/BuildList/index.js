@@ -2,12 +2,10 @@ import React from 'react'
 import Build from "../Build";
 
 const BuildList = ({builds}) =>
-        <tbody>
+    <div className="row">
         {builds.map(build =>
-                <tr>
-                    <Build key={build.id} build={build}/>
-                </tr>
+                <Build key={build.id} build={build}/>
         )}
-        </tbody>;
+    </div>;
 
 export default BuildList
