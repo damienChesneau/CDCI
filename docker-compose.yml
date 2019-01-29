@@ -1,5 +1,14 @@
 version: '3'
 services:
+  neo4j:
+    image: neo4j:latest
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: "none"
+    volumes:
+      - ./db:/var/lib/neo4j/data
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -23,3 +32,16 @@ services:
         - https_proxy
     ports:
       - "8002:8002"
+
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+    environment:
+      - PORT: 8000
+    ports:
+      - "8000:8000"
+

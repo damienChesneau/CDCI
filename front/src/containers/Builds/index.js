@@ -24,11 +24,11 @@ class Builds extends Component {
     componentDidMount() {
         buildsActions.getBuilds2({handleAction: this.handleAction.bind(this), inst: this});
         buildsActions.eventProc({handler: this.updateBuildsState.bind(this)});
-        console.log("IN")
     }
 
-    updateBuildsState(builds) {
-        console.log(builds);
+    updateBuildsState(build) {
+        let builds = this.state.builds;
+        builds.push(build);
         this.setState({builds: builds});
     }
 

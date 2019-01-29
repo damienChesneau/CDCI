@@ -29,27 +29,37 @@ public class Messaging {
         getProperties(() -> new ProducerRecord<>(topic, 0, key, message));
     }
 
-    public void consumeTopicMessage(String topic, String key, BiConsumer<String, String> biConsumer) {
+    public void consumeTopicMessage(String topic, String key, BiConsumer<String, String> biConsumer) throws InterruptedException {
+        this.consumeTopicMessage(topic, key, biConsumer, false);
+    }
+
+    public void consumeTopicMessage(String topic, String key, BiConsumer<String, String> biConsumer, boolean join) throws InterruptedException {
         var props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                "org.apache.kafka.common.serialization.StringDeserializer");
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "test-consumer-group");
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+        Runnable run = () -> {
+            try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
+                consumer.subscribe(Arrays.asList(topic, ""));
 
-        consumer.subscribe(Arrays.asList(topic, ""));
-        while (!Thread.interrupted()) {
-            ConsumerRecords<String, String> recs = consumer.poll(10);
-            if (recs.count() == 0) {
-                continue;
-            }
+                while (!Thread.interrupted()) {
+                    ConsumerRecords<String, String> recs = consumer.poll(1000);
+                    if (recs.count() == 0) {
+                        continue;
+                    }
 
-            for (ConsumerRecord<String, String> rec : recs) {
-                System.out.println("New " + rec.key() + " recived: " + rec.value());
-                biConsumer.accept(rec.key(), rec.value());
+                    for (ConsumerRecord<String, String> rec : recs) {
+                        System.out.println("New " + rec.key() + " recived.");
+                        biConsumer.accept(rec.key(), rec.value());
+                    }
+                }
             }
+        };
+        Thread thread = new Thread(run);
+        thread.start();
+        if (join) {
+            thread.join();
         }
     }
 

@@ -18,7 +18,7 @@ public class Server {
     private final Vertx vertx = Vertx.vertx();
     private final EventBus eb = vertx.eventBus();
 
-    private void serve() {
+    private void serve() throws InterruptedException {
         ConfigureRouteMethods configureRouteMethods = new ConfigureRouteMethods().invoke();
         Set<String> allowedHeaders = configureRouteMethods.getAllowedHeaders();
         Set<HttpMethod> allowedMethods = configureRouteMethods.getAllowedMethods();
@@ -83,11 +83,10 @@ public class Server {
         }
     }
 
-    public void run() {
+    public void run() throws InterruptedException {
         serve();
+        System.out.println("Server started.");
         Messaging messaging = new Messaging();
-        messaging.consumeTopicMessage("event-web", "main-builds", (s, s2) -> {
-            eb.publish(s, s2);
-        });
+        messaging.consumeTopicMessage("event-web", "main-builds", eb::publish);
     }
 }

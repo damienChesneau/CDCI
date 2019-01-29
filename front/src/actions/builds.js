@@ -26,10 +26,7 @@ export const eventProc = (props) => {
 
     eventBus.onopen = function () {
         eventBus.registerHandler("main-builds", function (error, message) {
-            console.log("message", message);
-            // actionOnResponse(JSON.parse(message));
-            props.handler(JSON.parse(message.body).builds);
+            props.handler(JSON.parse(message.body));
         });
     }
-    ;
 }

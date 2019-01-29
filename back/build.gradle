@@ -27,6 +27,8 @@ repositories {
 }
 
 dependencies {
+    compile 'org.neo4j.driver:neo4j-java-driver:1.7.2'
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.2.0.201812061821-r'
     compile group: 'io.vertx', name: 'vertx-web', version: '3.6.0'
     compile group: 'io.vertx', name: 'vertx-core', version: '3.6.0'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
