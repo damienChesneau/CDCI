@@ -39,7 +39,7 @@ class PersistanceImplNeo4J implements PersistanceService {
             return session.writeTransaction((tx) -> {
                 StatementResult result = tx.run("Match (b:Build) return b.console as console, b.success as success, b.project as project, b.timestamp as timestamp, ID(b) as id ORDER BY b.timestamp ");
                 return result.stream().map(record -> new Build(record.get("id").asInt(),
-                        record.get("project").asString("null"),
+                        record.get("project").asString("Vl"),
                         record.get("success").asBoolean(false),
                         record.get("console").asString("null"), record.get("timestamp").asLong(0l))).collect(Collectors.toList());
             });
@@ -59,4 +59,20 @@ class PersistanceImplNeo4J implements PersistanceService {
             });
         }
     }
+
+    @Override
+    public Build updateProjectNameByProjectPath(String path, String name) {
+        try (Session session = driver.session()) {
+            return session.writeTransaction((tx) -> {
+                StatementResult result = tx.run("MATCH (p:Project{name: $name})" +
+                        " WITH p, p {.*} as snapshot" +
+                        "  SET p.projectname = $projectname" +
+                        " RETURN p", parameters("name", path, "projectname", name));
+                Record record = result.single();
+                System.out.println(record     );
+                return null;
+            });
+        }
+    }
+
 }

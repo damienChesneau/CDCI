@@ -1,3 +1,5 @@
+package com.cdci;
+
 import com.cdci.Messaging;
 import com.cdci.building.Build;
 import com.cdci.building.Building;
@@ -20,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class BuildingTest {
 
-    @Test
+//    @Test
     public void doBuild() throws InterruptedException {
 //        new Thread(() -> {
 //            Building b = new Building(Paths.get("/root/CDCI/back/Dockerfile"));
@@ -37,7 +39,7 @@ public class BuildingTest {
 
     }
 
-    @Test
+//    @Test
     public void testDB() {
         Build build = new Build(12, "monbeauprojet", true, "Output", new Date().getTime());
         Build persist = PersistanceService.newInstance().persist(build);
@@ -55,7 +57,7 @@ public class BuildingTest {
      * @throws GitAPIException
      * @throws InterruptedException
      */
-    @Test
+//    @Test
     public void test() throws IOException, GitAPIException, InterruptedException {
         Path test = Files.createTempDirectory("test");
         Git remote = Git.init().setDirectory(test.toFile()).call();
@@ -83,7 +85,7 @@ public class BuildingTest {
      * @throws GitAPIException
      * @throws InterruptedException
      */
-    @Test
+//    @Test
     public void addNewCommit() throws IOException, GitAPIException, InterruptedException {
         var remoteUrl = "/tmp/test2495206229014264434/";
         File localDir = Files.createTempDirectory("local").toFile();
