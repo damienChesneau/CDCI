@@ -33,7 +33,7 @@ public class Messaging {
         this.consumeTopicMessage(topic, key, biConsumer, false);
     }
 
-    public void consumeTopicMessage(String topic, String key, BiConsumer<String, String> biConsumer, boolean join) throws InterruptedException {
+    private void consumeTopicMessage(String topic, String key, BiConsumer<String, String> biConsumer, boolean join) throws InterruptedException {
         var props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
@@ -50,7 +50,7 @@ public class Messaging {
                     }
 
                     for (ConsumerRecord<String, String> rec : recs) {
-                        System.out.println("New " + rec.key() + " recived.");
+                        System.out.println("New " + rec.key() + " received.");
                         biConsumer.accept(rec.key(), rec.value());
                     }
                 }

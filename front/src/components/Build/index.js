@@ -1,25 +1,72 @@
-import React from 'react'
+import React, {Component} from 'react'
 import './styles.css'
 
-const Build = ({build}) =>
-    <div className={getMainDivClassName(build.success ? "green" : "red")} style={{'margin': '14px'}}>
-        <div className="card-header"> {build.project + " " + build.id}</div>
-        <div className={getBodyDivClassName(build.success ? "green" : "red")}>
-            <p className="card-text">{build.console}</p>
-        </div>
-        <div className="d-flex justify-content-between align-items-center" style={{padding: '13px'}}>
-            <div className="btn-group">
-                <button type="button" className="btn btn-sm btn-outline-secondary">View console</button>
-                <button type="button" className="btn btn-sm btn-outline-secondary">View project</button>
+class Build extends Component {
+    state = {
+        build: [],
+        expandConsole: false
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            build: props.build,
+            expandConsole: false
+        };
+    }
+
+    viewConsole() {
+        if (this.state.expandConsole === true) {
+            this.setState({expandConsole: false})
+        } else {
+            console.log("Trie")
+            this.setState({expandConsole: true})
+        }
+    }
+
+    getConsoleMessage() {
+        if (this.state.expandConsole === true) {
+                let consoleLog= this.state.build.console.split("-");
+             consoleLog.map(x=>{
+                 return  ({x} (<br/>));
+            });
+        } else if (this.state.expandConsole === false) {
+            return <div>Project info...<br/>Build spend 2 hours.</div>
+        } else {
+            return "Error."
+        }
+    }
+
+    render(build) {
+        return (
+            <div className={getMainDivClassName(this.state.build.success ? "green" : "red")} style={{'margin': '14px'}}>
+                <div  className="card-header"><div style={{display: 'contents'}}>{this.state.build.project + " " + this.state.build.id} </div>
+                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div  className={getBodyDivClassName(this.state.build.success ? "green" : "red")}>
+                    <p className="card-text">{this.getConsoleMessage()}</p>
+                </div>
+                <div className="d-flex justify-content-between align-items-center" style={{padding: '13px'}}>
+                    <div className="btn-group">
+                        <button type="button" onClick={this.viewConsole.bind(this)}
+                                className="btn btn-sm btn-outline-secondary">View
+                            console
+                        </button>
+                        <button type="button" className="btn btn-sm btn-outline-secondary">View project</button>
+                    </div>
+                    <small className="text-muted">{getDateMessage(this.state.build.timestamp)}</small>
+                </div>
             </div>
-            <small className="text-muted">{getDateMessage(build.timestamp)}</small>
-        </div>
-    </div>
-;
+        )
+    }
+}
+
 
 const getMainDivClassName = (color) => {
     if (color === "red") {
-        return "card border-danger col-md-3";
+        return "card border-danger col-md-3 ";
     } else {
         return "card border-success col-md-3";
     }
@@ -49,9 +96,9 @@ const getDateMessage = (buildTimestamp) => {
     } else if (mins < 60) {
         return mins.toFixed(0) + " " + format(mins, "m") + " ago";
     } else if (hrs < 24) {
-        return hrs.toFixed(0) + " " +  format(hrs, "h") + " ago";
+        return hrs.toFixed(0) + " " + format(hrs, "h") + " ago";
     } else {
-        return days.toFixed(0) + " " +  format(days, "d") + " ago."
+        return days.toFixed(0) + " " + format(days, "d") + " ago."
     }
 }
 

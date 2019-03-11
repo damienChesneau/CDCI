@@ -1,7 +1,7 @@
 package com.cdci.building;
 
 import com.cdci.Messaging;
-import com.cdci.database.PersistanceService;
+import com.cdci.database.PersistenceService;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.BuildImageCmd;
 import com.github.dockerjava.api.model.BuildResponseItem;
@@ -35,8 +35,8 @@ public class Building {
             public void onNext(BuildResponseItem item) {
                 var stream = item.getStream();
                 consoleOutput.add(stream);
-                var messsages = new Messaging();
-                messsages.sendMessage("current-builds", "12", stream == null ? "end" : stream);
+                var messages = new Messaging();
+                messages.sendMessage("current-builds", "12", stream == null ? "end" : stream);
                 super.onNext(item);
             }
         };
@@ -52,18 +52,9 @@ public class Building {
             e.printStackTrace();
         }
 
-
-//        var jsonReturn = new JsonObject();
-//        var i = new SecureRandom().nextInt();
-//        jsonReturn.put("id", i);
-//        jsonReturn.put("name", "Build #" + i);
-//        jsonReturn.put("working", "images/Cherry.png");
-//        jsonReturn.put("color", new SecureRandom().nextBoolean() ? "green" : "red");
-//        jsonReturn.put("description", String.join("", consoleOutput));
-
-        Build build = PersistanceService.newInstance().persist(new Build(0, path.toString(), true, String.join("\n", consoleOutput), new Date().getTime()));
-        var messsages = new Messaging();
-        messsages.sendMessage("builds", "build", build.toJson().encode());
+        Build build = PersistenceService.newInstance().persist(new Build(0, path.toString(), true, String.join("\n", consoleOutput), new Date().getTime()));
+        var messages = new Messaging();
+        messages.sendMessage("builds", "build", build.toJson().encode());
     }
 
 }

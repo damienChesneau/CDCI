@@ -1,6 +1,6 @@
 package com.cdci.building;
 
-public class ConfigRules {
+class ConfigRules {
 
     public static String initialFileToBuild() {
         return "Dockerfile";

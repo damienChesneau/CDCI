@@ -1,6 +1,5 @@
 package com.cdci;
 
-import com.cdci.building.Building;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -23,12 +22,12 @@ public class GitTrigger {
         return new GitTrigger(remoteUri, localRepo);
     }
 
-    public GitTrigger(String remoteUri, Git localRepo) {
+    private GitTrigger(String remoteUri, Git localRepo) {
         this.remoteUri = remoteUri;
         this.localRepo = localRepo;
     }
 
-    private void init() throws IOException, GitAPIException {
+    private void init() throws GitAPIException {
         this.lastCommit = getLastCommitId();
     }
 
@@ -61,7 +60,4 @@ public class GitTrigger {
         thread.start();
     }
 
-    public void stopWatching() {
-        thread.interrupt();
-    }
 }

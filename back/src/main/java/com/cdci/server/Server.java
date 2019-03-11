@@ -55,15 +55,15 @@ public class Server {
         private Set<String> allowedHeaders;
         private Set<HttpMethod> allowedMethods;
 
-        public Set<String> getAllowedHeaders() {
+        Set<String> getAllowedHeaders() {
             return allowedHeaders;
         }
 
-        public Set<HttpMethod> getAllowedMethods() {
+        Set<HttpMethod> getAllowedMethods() {
             return allowedMethods;
         }
 
-        public ConfigureRouteMethods invoke() {
+        ConfigureRouteMethods invoke() {
             allowedHeaders = new HashSet<>();
             allowedHeaders.add("x-requested-with");
             allowedHeaders.add("Access-Control-Allow-Origin");

@@ -59,6 +59,8 @@ public class Build {
 
     public static Build fromJson(String jsonAsString) {
         var jsonObject = new JsonObject(jsonAsString);
-        return new Build(jsonObject.getInteger("id"), jsonObject.getString("project"), jsonObject.getBoolean("success"), jsonObject.getString("console"), jsonObject.getLong("timestamp", 0l));
+        return new Build(jsonObject.getInteger("id"), jsonObject.getString("project"),
+                jsonObject.getBoolean("success"), jsonObject.getString("console"),
+                jsonObject.getLong("timestamp", 0L));
     }
 }

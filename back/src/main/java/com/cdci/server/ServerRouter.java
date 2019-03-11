@@ -1,15 +1,9 @@
 package com.cdci.server;
 
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
-public class ServerRouter {
-    @FunctionalInterface
-    interface RouteHandler {
-        void handle(RoutingContext event);
-    }
-
+class ServerRouter {
     public static class ServerRoute {
         private final String name;
         private final Handler<RoutingContext> routeHandler;

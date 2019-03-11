@@ -2,20 +2,20 @@ package com.cdci.server;
 
 import com.cdci.Messaging;
 import com.cdci.building.Build;
-import com.cdci.database.PersistanceService;
+import com.cdci.database.PersistenceService;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildsRoutes {
+class BuildsRoutes {
 
     public List<ServerRouter.ServerRoute> createRoutes() throws InterruptedException {
         List<ServerRouter.ServerRoute> routes = new ArrayList<>();
         routes.add(new ServerRouter.ServerRoute("/builds", event -> {
             JsonArray builds = new JsonArray();
-            List<Build> allBuilds = PersistanceService.newInstance().getAllBuilds();
+            List<Build> allBuilds = PersistenceService.newInstance().getAllBuilds();
             for (Build b: allBuilds){
                 builds.add(b.toJson());
             }

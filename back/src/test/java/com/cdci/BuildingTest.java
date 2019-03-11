@@ -1,9 +1,8 @@
 package com.cdci;
 
-import com.cdci.Messaging;
 import com.cdci.building.Build;
 import com.cdci.building.Building;
-import com.cdci.database.PersistanceService;
+import com.cdci.database.PersistenceService;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -42,13 +41,13 @@ public class BuildingTest {
 //    @Test
     public void testDB() {
         Build build = new Build(12, "monbeauprojet", true, "Output", new Date().getTime());
-        Build persist = PersistanceService.newInstance().persist(build);
+        Build persist = PersistenceService.newInstance().persist(build);
         System.out.println(persist.getId());
 
-        List<Build> allBuilds = PersistanceService.newInstance().getAllBuilds();
+        List<Build> allBuilds = PersistenceService.newInstance().getAllBuilds();
         System.out.println(allBuilds);
 
-        Build buildById = PersistanceService.newInstance().getBuildById(43);
+        Build buildById = PersistenceService.newInstance().getBuildById(43);
         System.out.println(buildById);
     }
 
@@ -85,7 +84,7 @@ public class BuildingTest {
      * @throws GitAPIException
      * @throws InterruptedException
      */
-//    @Test
+    @Test
     public void addNewCommit() throws IOException, GitAPIException, InterruptedException {
         var remoteUrl = "/tmp/test2495206229014264434/";
         File localDir = Files.createTempDirectory("local").toFile();
