@@ -1,5 +1,6 @@
 package com.cdci;
 
+import com.cdci.annotation.DistribuitedTest;
 import com.cdci.building.Build;
 import com.cdci.building.Building;
 import com.cdci.database.PersistenceService;
@@ -56,12 +57,13 @@ public class BuildingTest {
      * @throws GitAPIException
      * @throws InterruptedException
      */
-//    @Test
+    @Test
+//    @DistribuitedTest
     public void test() throws IOException, GitAPIException, InterruptedException {
         Path test = Files.createTempDirectory("test");
         Git remote = Git.init().setDirectory(test.toFile()).call();
         Path dockerfile1 = Files.createFile(Path.of(test.toAbsolutePath().toString(), "Dockerfile"));
-        Path dockerfile2 = Paths.get("Dockerfile");
+        Path dockerfile2 = Paths.get("/root/CDCI/back/Dockerfile");
         Files.writeString(dockerfile1.toAbsolutePath(), Files.lines(dockerfile2).collect(Collectors.joining("\n")), StandardOpenOption.WRITE);
         remote.add().addFilepattern("Dockerfile").call();
         remote.commit().setAll(true).setCommitter("Damien Chesneau", "mon@mail.com").setMessage("Fisrt commit.").call();
